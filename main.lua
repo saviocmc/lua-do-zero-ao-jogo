@@ -32,19 +32,39 @@ function updatePlainPosition()
     end
 end
 
+meteor_src = 'images/meteoro.png'
+meteors = {}
+
+function addMeteor()
+    newMeteor = { x = math.random(window.size.x), y = 0 }
+    table.insert(meteors, newMeteor)
+end
+
+function updateMeteorsPosition()
+    for index,meteor in ipairs(meteors) do
+        meteor.y = meteor.y + 1
+    end
+end
+
 function love.load()
     love.window.setTitle(window.title)
     love.window.setMode(window.size.x, window.size.y, { resizable = false })
     window.background.ref = love.graphics.newImage(window.background.src)
     plane.ref = love.graphics.newImage(plane.src)
+    meteor_ref = love.graphics.newImage(meteor_src)
     setupPlainPosition()
 end
 
 function love.update(dt)
     updatePlainPosition()
+    updateMeteorsPosition()
+    addMeteor()
 end
 
 function love.draw()
     love.graphics.draw(window.background.ref, 0, 0)
+    for index,meteor in ipairs(meteors) do
+        love.graphics.draw(meteor_ref, meteor.x, meteor.y)
+    end
     love.graphics.draw(plane.ref, plane.position.x, plane.position.y)
 end
