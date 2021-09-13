@@ -33,6 +33,7 @@ function updatePlainPosition()
 end
 
 meteor_src = 'images/meteoro.png'
+meteors_max_size = 12
 meteors = {}
 
 function addMeteor()
@@ -43,6 +44,14 @@ end
 function updateMeteorsPosition()
     for index,meteor in ipairs(meteors) do
         meteor.y = meteor.y + 1
+    end
+end
+
+function removeInvisibleMeteors()
+    for index = #meteors,1,-1 do
+        if meteors[index].y > window.size.y then
+            table.remove(meteors, index)
+        end
     end
 end
 
@@ -58,7 +67,10 @@ end
 function love.update(dt)
     updatePlainPosition()
     updateMeteorsPosition()
-    addMeteor()
+    removeInvisibleMeteors()
+    if #meteors < meteors_max_size then
+        addMeteor()
+    end
 end
 
 function love.draw()
