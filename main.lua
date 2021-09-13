@@ -35,6 +35,11 @@ end
 function explodePlane()
     plane.src = 'images/explosao_nave.png'
     plane.ref = love.graphics.newImage(plane.src)
+    backgroundTrack:stop()
+    explosionTrack = love.audio.newSource('audios/explosion.wav', 'static')
+    explosionTrack:play()
+    gameOverTrack = love.audio.newSource('audios/gameOver.wav', 'static')
+    gameOverTrack:play()
 end
 
 meteor_src = 'images/meteoro.png'
@@ -92,6 +97,9 @@ function love.load()
     window.background.ref = love.graphics.newImage(window.background.src)
     plane.ref = love.graphics.newImage(plane.src)
     meteor_ref = love.graphics.newImage(meteor_src)
+    backgroundTrack = love.audio.newSource('audios/background.wav', 'static')
+    backgroundTrack:setLooping(true)
+    backgroundTrack:play()
     setupPlainPosition()
     math.randomseed(os.time())
 end
