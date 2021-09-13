@@ -37,13 +37,19 @@ meteors_max_size = 12
 meteors = {}
 
 function addMeteor()
-    newMeteor = { x = math.random(window.size.x), y = 0 }
+    newMeteor = {
+        x = math.random(window.size.x),
+        y = -50,
+        x_shift = math.random(-1,1),
+        mass = math.random(3),
+    }
     table.insert(meteors, newMeteor)
 end
 
 function updateMeteorsPosition()
     for index,meteor in ipairs(meteors) do
-        meteor.y = meteor.y + 1
+        meteor.y = meteor.y + meteor.mass
+        meteor.x = meteor.x + meteor.x_shift
     end
 end
 
@@ -62,6 +68,7 @@ function love.load()
     plane.ref = love.graphics.newImage(plane.src)
     meteor_ref = love.graphics.newImage(meteor_src)
     setupPlainPosition()
+    math.randomseed(os.time())
 end
 
 function love.update(dt)
