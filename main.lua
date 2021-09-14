@@ -94,6 +94,20 @@ function updateShotsPosition()
     end
 end
 
+function removeShootedMeteors()
+    for i = #meteors,1,-1 do
+        meteor = meteors[i]
+        for j = #shots,1,-1 do
+            shot = shots[j]
+            if hasOverlay(meteor, shot) then
+                table.remove(meteors, i)
+                table.remove(shots, j)
+                break
+            end
+        end
+    end
+end
+
 function hasOverlay(o1, o2)
     return
         o1.position.x < o2.position.x + o2.size.x and
@@ -151,6 +165,7 @@ function love.update(dt)
     updatePlainPosition()
     updateMeteorsPosition()
     updateShotsPosition()
+    removeShootedMeteors()
     if #meteors < meteors_max_size then
         addMeteor()
     end
