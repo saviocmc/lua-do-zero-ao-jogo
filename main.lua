@@ -112,10 +112,9 @@ function isPlaneCrashed()
 end
 
 function love.keypressed(key)
-    if(GAME_OVER) then return end
     if key == 'escape' then
         love.event.quit()
-    elseif key == 'space' then
+    elseif key == 'space' and not GAME_OVER then
         shoot()
     end
 end
