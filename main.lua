@@ -60,16 +60,37 @@ function addMeteor()
 end
 
 function updateMeteorsPosition()
-    for index,meteor in ipairs(meteors) do
-        meteor.position.y = meteor.position.y + meteor.mass
-        meteor.position.x = meteor.position.x + meteor.x_shift
+    for index = #meteors,1,-1 do
+        local meteor = meteors[index]
+        if meteor.position.y < window.size.y then
+            meteor.position.y = meteor.position.y + meteor.mass
+            meteor.position.x = meteor.position.x + meteor.x_shift
+        else
+            table.remove(meteors, index)
+        end
     end
 end
 
-function removeInvisibleMeteors()
-    for index = #meteors,1,-1 do
-        if meteors[index].position.y > window.size.y then
-            table.remove(meteors, index)
+shot_src = 'images/shot.png'
+shots = {}
+
+function shoot()
+    shot = {
+        size = { x = 12, y = 12 },
+        position = {
+            x = plane.position.x + plane.size.x / 2 - 6,
+            y = plane.position.y,
+        },
+    }
+    table.insert(shots, shot)
+end
+
+function updateShotsPosition()
+    for index = #shots,1,-1 do
+        if shots[index].position.y > 0 then
+            shots[index].position.y = shots[index].position.y - 1
+        else
+            table.remove(shots, index)
         end
     end
 end
@@ -91,12 +112,22 @@ function isPlaneCrashed()
     return false
 end
 
+function love.keypressed(key)
+    if(GAME_OVER) then return end
+    if key == 'escape' then
+        love.event.quit()
+    elseif key == 'space' then
+        shoot()
+    end
+end
+
 function love.load()
     love.window.setTitle(window.title)
     love.window.setMode(window.size.x, window.size.y, { resizable = false })
     window.background.ref = love.graphics.newImage(window.background.src)
     plane.ref = love.graphics.newImage(plane.src)
     meteor_ref = love.graphics.newImage(meteor_src)
+    shot_ref = love.graphics.newImage(shot_src)
     backgroundTrack = love.audio.newSource('audios/background.wav', 'static')
     backgroundTrack:setLooping(true)
     backgroundTrack:play()
@@ -108,7 +139,7 @@ function love.update(dt)
     if(GAME_OVER) then return end
     updatePlainPosition()
     updateMeteorsPosition()
-    removeInvisibleMeteors()
+    updateShotsPosition()
     if #meteors < meteors_max_size then
         addMeteor()
     end
@@ -124,4 +155,7 @@ function love.draw()
         love.graphics.draw(meteor_ref, meteor.position.x, meteor.position.y)
     end
     love.graphics.draw(plane.ref, plane.position.x, plane.position.y)
+    for index,shot in ipairs(shots) do
+        love.graphics.draw(shot_ref, shot.position.x, shot.position.y)
+    end
 end
