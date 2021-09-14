@@ -7,8 +7,8 @@ window = {
 }
 
 plane = {
-    src = 'images/14bis.png',
-    size = { x = 55, y = 63 },
+    src = 'images/plane.png',
+    size = { x = 56, y = 62 },
     position = { x = 0, y = 0 },
 }
 
@@ -33,7 +33,7 @@ function updatePlainPosition()
 end
 
 function explodePlane()
-    plane.src = 'images/explosao_nave.png'
+    plane.src = 'images/explosion.png'
     plane.ref = love.graphics.newImage(plane.src)
     backgroundTrack:stop()
     explosionTrack = love.audio.newSource('audios/explosion.wav', 'static')
@@ -42,13 +42,13 @@ function explodePlane()
     gameOverTrack:play()
 end
 
-meteor_src = 'images/meteoro.png'
+meteor_src = 'images/meteor.png'
 meteors_max_size = 12
 meteors = {}
 
 function addMeteor()
     newMeteor = {
-        size = { x = 50, y = 40 },
+        size = { x = 56, y = 42 },
         position = {
             x = math.random(window.size.x),
             y = -50,
