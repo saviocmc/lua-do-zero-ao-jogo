@@ -35,11 +35,9 @@ end
 function explodePlane()
     plane.src = 'images/explosion.png'
     plane.ref = love.graphics.newImage(plane.src)
-    backgroundTrack:stop()
-    explosionTrack = love.audio.newSource('audios/explosion.wav', 'static')
-    explosionTrack:play()
-    gameOverTrack = love.audio.newSource('audios/gameOver.wav', 'static')
-    gameOverTrack:play()
+    audios.background:stop()
+    audios.explosion:play()
+    audios.gameOver:play()
 end
 
 meteor_src = 'images/meteor.png'
@@ -83,6 +81,7 @@ function shoot()
         },
     }
     table.insert(shots, shot)
+    audios.shot:play()
 end
 
 function updateShotsPosition()
@@ -121,18 +120,31 @@ function love.keypressed(key)
     end
 end
 
-function love.load()
-    love.window.setTitle(window.title)
-    love.window.setMode(window.size.x, window.size.y, { resizable = false })
+function loadImages()
     window.background.ref = love.graphics.newImage(window.background.src)
     plane.ref = love.graphics.newImage(plane.src)
     meteor_ref = love.graphics.newImage(meteor_src)
     shot_ref = love.graphics.newImage(shot_src)
-    backgroundTrack = love.audio.newSource('audios/background.wav', 'static')
-    backgroundTrack:setLooping(true)
-    backgroundTrack:play()
-    setupPlainPosition()
+end
+
+function loadAudioTracks()
+    audios = {
+        background = love.audio.newSource('audios/background.wav', 'static'),
+        shot = love.audio.newSource('audios/shot.wav', 'static'),
+        explosion = love.audio.newSource('audios/explosion.wav', 'static'),
+        gameOver = love.audio.newSource('audios/gameOver.wav', 'static'),
+    }
+end
+
+function love.load()
     math.randomseed(os.time())
+    love.window.setTitle(window.title)
+    love.window.setMode(window.size.x, window.size.y, { resizable = false })
+    loadImages() 
+    loadAudioTracks()
+    audios.background:setLooping(true)
+    audios.background:play()
+    setupPlainPosition()
 end
 
 function love.update(dt)
