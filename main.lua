@@ -94,6 +94,9 @@ function updateShotsPosition()
     end
 end
 
+pointsCount = 0
+pointsToWin = 10
+
 function removeShootedMeteors()
     for i = #meteors,1,-1 do
         meteor = meteors[i]
@@ -102,6 +105,7 @@ function removeShootedMeteors()
             if hasOverlay(meteor, shot) then
                 table.remove(meteors, i)
                 table.remove(shots, j)
+                pointsCount = pointsCount + 1
                 break
             end
         end
@@ -139,6 +143,7 @@ function loadImages()
     meteor_ref = love.graphics.newImage(meteor_src)
     shot_ref = love.graphics.newImage(shot_src)
     gameover_ref = love.graphics.newImage('images/gameover.png')
+    winner_ref = love.graphics.newImage('images/winner.png')
 end
 
 function loadAudioTracks()
@@ -147,6 +152,7 @@ function loadAudioTracks()
         shot = love.audio.newSource('audios/shot.wav', 'static'),
         explosion = love.audio.newSource('audios/explosion.wav', 'static'),
         gameover = love.audio.newSource('audios/gameover.wav', 'static'),
+        winner = love.audio.newSource('audios/winner.wav', 'static'),
     }
 end
 
@@ -162,7 +168,7 @@ function love.load()
 end
 
 function love.update(dt)
-    if(GAME_OVER) then return end
+    if(GAME_OVER or WINNER) then return end
     updatePlainPosition()
     updateMeteorsPosition()
     updateShotsPosition()
@@ -174,6 +180,12 @@ function love.update(dt)
         explodePlane()
         GAME_OVER = true
     end
+    if pointsCount >= pointsToWin then
+        WINNER = true
+        audios.background:stop()
+        audios.winner:play()
+    end
+
 end
 
 function love.draw()
@@ -185,7 +197,11 @@ function love.draw()
     for index,shot in ipairs(shots) do
         love.graphics.draw(shot_ref, shot.position.x, shot.position.y)
     end
+    love.graphics.print('Meteors to destroy: '..pointsToWin-pointsCount)
     if GAME_OVER then
         love.graphics.draw(gameover_ref, window.size.x/2 - gameover_ref:getWidth()/2, window.size.y/2 - gameover_ref:getHeight()/2)
+    end
+    if WINNER then
+        love.graphics.draw(winner_ref, window.size.x/2 - winner_ref:getWidth()/2, window.size.y/2 - winner_ref:getHeight()/2)
     end
 end
