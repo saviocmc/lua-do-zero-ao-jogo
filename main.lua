@@ -138,6 +138,7 @@ function loadImages()
     plane.ref = love.graphics.newImage(plane.src)
     meteor_ref = love.graphics.newImage(meteor_src)
     shot_ref = love.graphics.newImage(shot_src)
+    gameover_ref = love.graphics.newImage('images/gameover.png')
 end
 
 function loadAudioTracks()
@@ -183,5 +184,8 @@ function love.draw()
     love.graphics.draw(plane.ref, plane.position.x, plane.position.y)
     for index,shot in ipairs(shots) do
         love.graphics.draw(shot_ref, shot.position.x, shot.position.y)
+    end
+    if GAME_OVER then
+        love.graphics.draw(gameover_ref, window.size.x/2 - gameover_ref:getWidth()/2, window.size.y/2 - gameover_ref:getHeight()/2)
     end
 end
