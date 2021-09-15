@@ -37,7 +37,7 @@ function explodePlane()
     plane.ref = love.graphics.newImage(plane.src)
     audios.background:stop()
     audios.explosion:play()
-    audios.gameOver:play()
+    audios.gameover:play()
 end
 
 meteor_src = 'images/meteor.png'
@@ -146,7 +146,7 @@ function loadAudioTracks()
         background = love.audio.newSource('audios/background.wav', 'static'),
         shot = love.audio.newSource('audios/shot.wav', 'static'),
         explosion = love.audio.newSource('audios/explosion.wav', 'static'),
-        gameOver = love.audio.newSource('audios/gameOver.wav', 'static'),
+        gameover = love.audio.newSource('audios/gameover.wav', 'static'),
     }
 end
 
