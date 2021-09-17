@@ -190,11 +190,11 @@ end
 
 function love.draw()
     love.graphics.draw(window.background.ref, 0, 0)
-    for index,meteor in ipairs(meteors) do
+    for _,meteor in ipairs(meteors) do
         love.graphics.draw(meteor_ref, meteor.position.x, meteor.position.y)
     end
     love.graphics.draw(plane.ref, plane.position.x, plane.position.y)
-    for index,shot in ipairs(shots) do
+    for _,shot in ipairs(shots) do
         love.graphics.draw(shot_ref, shot.position.x, shot.position.y)
     end
     love.graphics.print('Meteors to destroy: '..pointsToWin-pointsCount)
