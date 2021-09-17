@@ -14,7 +14,7 @@ plane = {
 
 function setupPlainPosition()
     plane.position.x = window.size.x / 2 - plane.size.x / 2
-    plane.position.y = window.size.y - plane.size.y / 2
+    plane.position.y = window.size.y - plane.size.y
 end
 
 function updatePlainPosition()
@@ -117,7 +117,7 @@ function hasOverlay(o1, o2)
         o1.position.x < o2.position.x + o2.size.x and
         o2.position.x < o1.position.x + o1.size.x and
         o1.position.y < o2.position.y + o2.size.y and
-        o2.position.y < o1.position.y + o1.size.y 
+        o2.position.y < o1.position.y + o1.size.y
 end
 
 function isPlaneCrashed()
