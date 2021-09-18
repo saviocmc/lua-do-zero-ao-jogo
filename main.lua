@@ -12,11 +12,11 @@ end
 local audios = {}
 
 local function loadAudioTracks()
-        audios.background = love.audio.newSource('audios/background.wav', 'static')
-        audios.shot = love.audio.newSource('audios/shot.wav', 'static')
-        audios.explosion = love.audio.newSource('audios/explosion.wav', 'static')
-        audios.gameover = love.audio.newSource('audios/gameover.wav', 'static')
-        audios.winner = love.audio.newSource('audios/winner.wav', 'static')
+    audios.background = love.audio.newSource('audios/background.wav', 'static')
+    audios.shot = love.audio.newSource('audios/shot.wav', 'static')
+    audios.explosion = love.audio.newSource('audios/explosion.wav', 'static')
+    audios.gameover = love.audio.newSource('audios/gameover.wav', 'static')
+    audios.winner = love.audio.newSource('audios/winner.wav', 'static')
 end
 
 local window = {
