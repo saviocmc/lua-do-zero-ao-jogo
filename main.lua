@@ -67,14 +67,14 @@ local function addMeteor()
             x = math.random(window.size.x),
             y = -50,
         },
-        x_shift = math.random(-1,1),
+        x_shift = math.random(-1, 1),
         mass = math.random(3),
     }
     table.insert(meteors, newMeteor)
 end
 
 local function updateMeteorsPosition()
-    for index = #meteors,1,-1 do
+    for index = #meteors, 1, -1 do
         local meteor = meteors[index]
         if meteor.position.y < window.size.y then
             meteor.position.y = meteor.position.y + meteor.mass
@@ -100,7 +100,7 @@ local function shoot()
 end
 
 local function updateShotsPosition()
-    for index = #shots,1,-1 do
+    for index = #shots, 1, -1 do
         if shots[index].position.y > 0 then
             shots[index].position.y = shots[index].position.y - 1
         else
@@ -113,17 +113,16 @@ local pointsCount = 0
 local pointsToWin = 10
 
 local function hasOverlay(o1, o2)
-    return
-        o1.position.x < o2.position.x + o2.size.x and
-        o2.position.x < o1.position.x + o1.size.x and
-        o1.position.y < o2.position.y + o2.size.y and
-        o2.position.y < o1.position.y + o1.size.y
+    return o1.position.x < o2.position.x + o2.size.x
+        and o2.position.x < o1.position.x + o1.size.x
+        and o1.position.y < o2.position.y + o2.size.y
+        and o2.position.y < o1.position.y + o1.size.y
 end
 
 local function removeShootedMeteors()
-    for i = #meteors,1,-1 do
+    for i = #meteors, 1, -1 do
         local meteor = meteors[i]
-        for j = #shots,1,-1 do
+        for j = #shots, 1, -1 do
             local shot = shots[j]
             if hasOverlay(meteor, shot) then
                 table.remove(meteors, i)
@@ -136,7 +135,7 @@ local function removeShootedMeteors()
 end
 
 local function isPlaneCrashed()
-    for _,meteor in ipairs(meteors) do
+    for _, meteor in ipairs(meteors) do
         if hasOverlay(plane, meteor) then
             return true
         end
@@ -164,7 +163,9 @@ function love.load()
 end
 
 function love.update()
-    if(GAME_OVER or WINNER) then return end
+    if GAME_OVER or WINNER then
+        return
+    end
     updatePlainPosition()
     updateMeteorsPosition()
     updateShotsPosition()
@@ -181,31 +182,30 @@ function love.update()
         audios.background:stop()
         audios.winner:play()
     end
-
 end
 
 function love.draw()
     love.graphics.draw(images.background, 0, 0)
-    for _,meteor in ipairs(meteors) do
+    for _, meteor in ipairs(meteors) do
         love.graphics.draw(images.meteor, meteor.position.x, meteor.position.y)
     end
     love.graphics.draw(images.plane, plane.position.x, plane.position.y)
-    for _,shot in ipairs(shots) do
+    for _, shot in ipairs(shots) do
         love.graphics.draw(images.shot, shot.position.x, shot.position.y)
     end
-    love.graphics.print('Meteors to destroy: '..pointsToWin-pointsCount)
+    love.graphics.print('Meteors to destroy: ' .. pointsToWin - pointsCount)
     if GAME_OVER then
         love.graphics.draw(
             images.gameover,
-            window.size.x/2 - images.gameover:getWidth()/2,
-            window.size.y/2 - images.gameover:getHeight()/2
+            window.size.x / 2 - images.gameover:getWidth() / 2,
+            window.size.y / 2 - images.gameover:getHeight() / 2
         )
     end
     if WINNER then
         love.graphics.draw(
             images.winner,
-            window.size.x/2 - images.winner:getWidth()/2,
-            window.size.y/2 - images.winner:getHeight()/2
+            window.size.x / 2 - images.winner:getWidth() / 2,
+            window.size.y / 2 - images.winner:getHeight() / 2
         )
     end
 end
